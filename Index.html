@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional EPO Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background: #ecf0f1;
+            border-bottom: 1px solid #bdc3c7;
+        }
+        
+        .nav-tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .nav-tab.active {
+            background: white;
+            border-bottom-color: #3498db;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .form-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+        
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #219a52;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            border-left: 4px solid #3498db;
+        }
+        
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 10px 0;
+        }
+        
+        .metric-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+        
+        .chart-container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin: 20px 0;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .data-table th {
+            background: #34495e;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            color: white;
+        }
+        
+        .status-resolved { background: #27ae60; }
+        .status-pending { background: #f39c12; }
+        .status-review { background: #e74c3c; }
+        
+        .report-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .executive-insights {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .insight-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 4px solid;
+        }
+        
+        .insight-card.cost { border-left-color: #e74c3c; }
+        .insight-card.pattern { border-left-color: #f39c12; }
+        .insight-card.prevention { border-left-color: #27ae60; }
+        .insight-card.action { border-left-color: #3498db; }
+        
+        .filters {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .export-section {
+            background: #27ae60;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        #epoChart {
+            width: 100%;
+            height: 300px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>EPO Management & Analytics System</h1>
+            <p>Professional Production Coordination Platform</p>
+        </div>
+        
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('input')">Data Entry</button>
+            <button class="nav-tab" onclick="showTab('dashboard')">Live Dashboard</button>
+            <button class="nav-tab" onclick="showTab('analysis')">Analytics</button>
+            <button class="nav-tab" onclick="showTab('reports')">Executive Reports</button>
+        </div>
+        
+        <!-- DATA ENTRY TAB -->
+        <div id="input" class="tab-content active">
+            <h2>Add New EPO Entry</h2>
+            <div class="form-section">
+                <form id="epoForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" id="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Subdivision</label>
+                            <input type="text" id="subdivision" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Builder</label>
+                            <select id="builder" required>
+                                <option value="">Select Builder</option>
+                                <option value="Toll Brothers">Toll Brothers</option>
+                                <option value="Lennar">Lennar</option>
+                                <option value="Century">Century</option>
+                                <option value="Dr Horton">Dr Horton</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Job Address</label>
+                            <input type="text" id="address" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Material Needed</label>
+                            <input type="text" id="material" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input type="number" id="quantity" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Unit</label>
+                            <select id="unit" required>
+                                <option value="">Select Unit</option>
+                                <option value="BNDL">Bundle</option>
+                                <option value="RL">Roll</option>
+                                <option value="EA">Each</option>
+                                <option value="BOX">Box</option>
+                                <option value="PC">Piece</option>
+                                <option value="TB">Tube</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Unit Price ($)</label>
+                            <input type="number" id="unitPrice" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Root Cause</label>
+                            <select id="rootCause" required>
+                                <option value="">Select Root Cause</option>
+                                <option value="Measurement Error">Measurement Error</option>
+                                <option value="Supplier Shortage">Supplier Shortage</option>
+                                <option value="Job Site Issue">Job Site Issue</option>
+                                <option value="Framer Modification">Framer Modification</option>
+                                <option value="Weather Damage">Weather Damage</option>
+                                <option value="Quality Issue">Quality Issue</option>
+                                <option value="Specification Change">Specification Change</option>
+                                <option value="Installation Error">Installation Error</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Responsible Party</label>
+                            <select id="responsibleParty" required>
+                                <option value="">Select Party</option>
+                                <option value="Office/Estimating">Office/Estimating</option>
+                                <option value="Field Crew">Field Crew</option>
+                                <option value="Supplier">Supplier</option>
+                                <option value="Builder/Framer">Builder/Framer</option>
+                                <option value="Weather/External">Weather/External</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Requested By</label>
+                            <input type="text" id="requestedBy" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Crew/Team</label>
+                            <input type="text" id="crew" required>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label>Prevention Strategy</label>
+                        <textarea id="prevention" rows="3" placeholder="What specific action could prevent this type of EPO in the future?"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea id="notes" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add EPO Entry</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- DASHBOARD TAB -->
+        <div id="dashboard" class="tab-content">
+            <h2>Live Performance Dashboard</h2>
+            <div class="dashboard-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Total EPOs</div>
+                    <div class="metric-value" id="totalEPOs">0</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Total Cost</div>
+                    <div class="metric-value" id="totalCost">$0</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Avg Cost Per EPO</div>
+                    <div class="metric-value" id="avgCost">$0</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">This Month</div>
+                    <div class="metric-value" id="thisMonth">0</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Prevention Rate</div>
+                    <div class="metric-value" id="preventionRate">0%</div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h3>EPO Trends</h3>
+                <canvas id="epoChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- ANALYSIS TAB -->
+        <div id="analysis" class="tab-content">
+            <h2>Advanced Analytics</h2>
+            
+            <div class="filters">
+                <h3>Filter Data</h3>
+                <div class="filter-grid">
+                    <select id="filterBuilder">
+                        <option value="">All Builders</option>
+                    </select>
+                    <select id="filterCause">
+                        <option value="">All Root Causes</option>
+                    </select>
+                    <select id="filterCrew">
+                        <option value="">All Crews</option>
+                    </select>
+                    <input type="date" id="filterStartDate" placeholder="Start Date">
+                    <input type="date" id="filterEndDate" placeholder="End Date">
+                    <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+                </div>
+            </div>
+            
+            <div class="executive-insights">
+                <div class="insight-card cost">
+                    <h3>Cost Analysis</h3>
+                    <div id="costAnalysis">Loading...</div>
+                </div>
+                <div class="insight-card pattern">
+                    <h3>Pattern Recognition</h3>
+                    <div id="patternAnalysis">Loading...</div>
+                </div>
+                <div class="insight-card prevention">
+                    <h3>Prevention Opportunities</h3>
+                    <div id="preventionAnalysis">Loading...</div>
+                </div>
+                <div class="insight-card action">
+                    <h3>Action Items</h3>
+                    <div id="actionItems">Loading...</div>
+                </div>
+            </div>
+            
+            <table class="data-table" id="analysisTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Builder</th>
+                        <th>Material</th>
+                        <th>Cost</th>
+                        <th>Root Cause</th>
+                        <th>Crew</th>
+                        <th>Preventable</th>
+                        <th>Prevention Strategy</th>
+                    </tr>
+                </thead>
+                <tbody id="analysisTableBody">
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- REPORTS TAB -->
+        <div id="reports" class="tab-content">
+            <div class="report-header">
+                <h2>Executive Report Generator</h2>
+                <p>Professional reports for C-suite presentation</p>
+            </div>
+            
+            <div class="form-section">
+                <h3>Report Parameters</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Report Period</label>
+                        <select id="reportPeriod">
+                            <option value="monthly">Monthly</option>
+                            <option value="quarterly">Quarterly</option>
+                            <option value="custom">Custom Date Range</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Report Type</label>
+                        <select id="reportType">
+                            <option value="executive">Executive Summary</option>
+                            <option value="operational">Operational Analysis</option>
+                            <option value="financial">Financial Impact</option>
+                            <option value="prevention">Prevention Strategy</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-success" onclick="generateReport()">Generate Professional Report</button>
+            </div>
+            
+            <div id="reportOutput" class="hidden">
+                <div class="export-section">
+                    <h3>Report Ready for Export</h3>
+                    <p>Your professional report has been generated and is ready for presentation</p>
+                    <button class="btn btn-primary" onclick="exportToPDF()">Export to PDF</button>
+                    <button class="btn btn-primary" onclick="exportToExcel()">Export to Excel</button>
+                    <button class="btn btn-primary" onclick="copyToClipboard()">Copy to Clipboard</button>
+                </div>
+                <div id="reportContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global data storage
+        let epoData = [];
+        
+        // Initialize with your existing data
+        function initializeData() {
+            epoData = [
+                {
+                    date: '2025-05-22',
+                    subdivision: 'Montaine',
+                    builder: 'Toll Brothers',
+                    address: '768 Coal Bank Trail',
+                    material: 'Seal A Ridge',
+                    quantity: 1,
+                    unit: 'RL',
+                    unitPrice: 64.02,
+                    totalCost: 64.02,
+                    rootCause: 'Job Site Issue',
+                    responsibleParty: 'Field Crew',
+                    requestedBy: 'Dawson Chadwick',
+                    crew: 'Mariscal Roofing',
+                    prevention: 'Enhanced pre-job inspection protocol',
+                    notes: 'Other Job Site'
+                },
+                {
+                    date: '2025-07-02',
+                    subdivision: 'Parterre',
+                    builder: 'Lennar',
+                    address: '6639 Parterre Parkway',
+                    material: 'Seal A Ridge',
+                    quantity: 1,
+                    unit: 'BNDL',
+                    unitPrice: 54.00,
+                    totalCost: 54.00,
+                    rootCause: 'Measurement Error',
+                    responsibleParty: 'Office/Estimating',
+                    requestedBy: 'Ruben',
+                    crew: 'Antonio Roofing',
+                    prevention: 'Implement measurement verification checklist',
+                    notes: 'miss measured'
+                }
+            ];
+            updateDashboard();
+        }
+        
+        // Tab functionality
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            if (tabName === 'dashboard') updateDashboard();
+            if (tabName === 'analysis') updateAnalysis();
+        }
+        
+        // Form submission
+        document.getElementById('epoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                date: document.getElementById('date').value,
+                subdivision: document.getElementById('subdivision').value,
+                builder: document.getElementById('builder').value,
+                address: document.getElementById('address').value,
+                material: document.getElementById('material').value,
+                quantity: parseFloat(document.getElementById('quantity').value),
+                unit: document.getElementById('unit').value,
+                unitPrice: parseFloat(document.getElementById('unitPrice').value),
+                totalCost: parseFloat(document.getElementById('quantity').value) * parseFloat(document.getElementById('unitPrice').value),
+                rootCause: document.getElementById('rootCause').value,
+                responsibleParty: document.getElementById('responsibleParty').value,
+                requestedBy: document.getElementById('requestedBy').value,
+                crew: document.getElementById('crew').value,
+                prevention: document.getElementById('prevention').value,
+                notes: document.getElementById('notes').value
+            };
+            
+            epoData.push(formData);
+            updateDashboard();
+            
+            // Reset form
+            document.getElementById('epoForm').reset();
+            alert('EPO entry added successfully!');
+        });
+        
+        // Update dashboard
+        function updateDashboard() {
+            const totalEPOs = epoData.length;
+            const totalCost = epoData.reduce((sum, epo) => sum + epo.totalCost, 0);
+            const avgCost = totalEPOs > 0 ? totalCost / totalEPOs : 0;
+            
+            // Current month EPOs
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+            const thisMonthEPOs = epoData.filter(epo => {
+                const epoDate = new Date(epo.date);
+                return epoDate.getMonth() === currentMonth && epoDate.getFullYear() === currentYear;
+            }).length;
+            
+            // Prevention rate calculation
+            const preventableEPOs = epoData.filter(epo => 
+                epo.rootCause === 'Measurement Error' || 
+                epo.rootCause === 'Job Site Issue' || 
+                epo.rootCause === 'Installation Error'
+            ).length;
+            const preventionRate = totalEPOs > 0 ? Math.round((preventableEPOs / totalEPOs) * 100) : 0;
+            
+            document.getElementById('totalEPOs').textContent = totalEPOs;
+            document.getElementById('totalCost').textContent = `$${totalCost.toFixed(2)}`;
+            document.getElementById('avgCost').textContent = `$${avgCost.toFixed(2)}`;
+            document.getElementById('thisMonth').textContent = thisMonthEPOs;
+            document.getElementById('preventionRate').textContent = `${preventionRate}%`;
+        }
+        
+        // Update analysis
+        function updateAnalysis() {
+            // Cost analysis
+            const totalCost = epoData.reduce((sum, epo) => sum + epo.totalCost, 0);
+            const costByBuilder = {};
+            epoData.forEach(epo => {
+                costByBuilder[epo.builder] = (costByBuilder[epo.builder] || 0) + epo.totalCost;
+            });
+            const topCostBuilder = Object.keys(costByBuilder).reduce((a, b) => 
+                costByBuilder[a] > costByBuilder[b] ? a : b, '');
+            
+            document.getElementById('costAnalysis').innerHTML = `
+                <p><strong>Total Cost Impact:</strong> $${totalCost.toFixed(2)}</p>
+                <p><strong>Highest Cost Builder:</strong> ${topCostBuilder} ($${(costByBuilder[topCostBuilder] || 0).toFixed(2)})</p>
+                <p><strong>Average Monthly Cost:</strong> $${(totalCost / Math.max(1, getMonthsSpan())).toFixed(2)}</p>
+            `;
+            
+            // Pattern analysis
+            const materialCount = {};
+            epoData.forEach(epo => {
+                materialCount[epo.material] = (materialCount[epo.material] || 0) + 1;
+            });
+            const topMaterial = Object.keys(materialCount).reduce((a, b) => 
+                materialCount[a] > materialCount[b] ? a : b, '');
+            
+            document.getElementById('patternAnalysis').innerHTML = `
+                <p><strong>Most Common Material:</strong> ${topMaterial} (${materialCount[topMaterial] || 0} incidents)</p>
+                <p><strong>Peak Month:</strong> ${getPeakMonth()}</p>
+                <p><strong>Crew Performance:</strong> ${getCrewInsights()}</p>
+            `;
+            
+            // Prevention opportunities
+            const preventableCount = epoData.filter(epo => 
+                epo.rootCause === 'Measurement Error' || 
+                epo.rootCause === 'Job Site Issue' || 
+                epo.rootCause === 'Installation Error'
+            ).length;
+            const preventableCost = epoData.filter(epo => 
+                epo.rootCause === 'Measurement Error' || 
+                epo.rootCause === 'Job Site Issue' || 
+                epo.rootCause === 'Installation Error'
+            ).reduce((sum, epo) => sum + epo.totalCost, 0);
+            
+            document.getElementById('preventionAnalysis').innerHTML = `
+                <p><strong>Preventable EPOs:</strong> ${preventableCount} (${Math.round(preventableCount/epoData.length*100)}%)</p>
+                <p><strong>Preventable Cost:</strong> $${preventableCost.toFixed(2)}</p>
+                <p><strong>Annual Savings Potential:</strong> $${(preventableCost * 12 / Math.max(1, getMonthsSpan())).toFixed(2)}</p>
+            `;
+            
+            // Action items
+            document.getElementById('actionItems').innerHTML = `
+                <p><strong>Priority 1:</strong> Address ${topMaterial} measurement protocol</p>
+                <p><strong>Priority 2:</strong> ${topCostBuilder} project review process</p>
+                <p><strong>Priority 3:</strong> Crew training for top EPO generators</p>
+            `;
+            
+            // Update analysis table
+            updateAnalysisTable();
+        }
+        
+        function updateAnalysisTable() {
+            const tbody = document.getElementById('analysisTableBody');
+            tbody.innerHTML = '';
+            
+            epoData.forEach(epo => {
+                const row = tbody.insertRow();
+                const isPreventable = epo.rootCause === 'Measurement Error' || 
+                                    epo.rootCause === 'Job Site Issue' || 
+                                    epo.rootCause === 'Installation Error';
+                
+                row.innerHTML = `
+                    <td>${new Date(epo.date).toLocaleDateString()}</td>
+                    <td>${epo.builder}</td>
+                    <td>${epo.material}</td>
+                    <td>$${epo.totalCost.toFixed(2)}</td>
+                    <td>${epo.rootCause}</td>
+                    <td>${epo.crew}</td>
+                    <td><span class="status-badge ${isPreventable ? 'status-review' : 'status-resolved'}">${isPreventable ? 'Yes' : 'No'}</span></td>
+                    <td>${epo.prevention}</td>
+                `;
+            });
+        }
+        
+        // Helper functions
+        function getMonthsSpan() {
+            if (epoData.length === 0) return 1;
+            const dates = epoData.map(epo => new Date(epo.date));
+            const earliest = new Date(Math.min(...dates));
+            const latest = new Date(Math.max(...dates));
+            return Math.max(1, (latest - earliest) / (1000 * 60 * 60 * 24 * 30));
+        }
+        
+        function getPeakMonth() {
+            const monthCount = {};
+            epoData.forEach(epo => {
+                const month = new Date(epo.date).toLocaleDateString('en-US', {month: 'long', year: 'numeric'});
+                monthCount[month] = (monthCount[month] || 0) + 1;
+            });
+            return Object.keys(monthCount).reduce((a, b) => monthCount[a] > monthCount[b] ? a : b, 'N/A');
+        }
+        
+        function getCrewInsights() {
+            const crewCount = {};
+            epoData.forEach(epo => {
+                crewCount[epo.crew] = (crewCount[epo.crew] || 0) + 1;
+            });
+            const topCrew = Object.keys(crewCount).reduce((a, b) => crewCount[a] > crewCount[b] ? a : b, 'N/A');
+            return `${topCrew} (${crewCount[topCrew] || 0} EPOs)`;
+        }
+        
+        // Generate professional report
+        function generateReport() {
+            const reportType = document.getElementById('reportType').value;
+            const reportPeriod = document.getElementById('reportPeriod').value;
+            
+            let reportContent = '';
+            
+            if (reportType === 'executive') {
+                reportContent = generateExecutiveReport();
+            } else if (reportType === 'operational') {
+                reportContent = generateOperationalReport();
+            } else if (reportType === 'financial') {
+                reportContent = generateFinancialReport();
+            } else if (reportType === 'prevention') {
+                reportContent = generatePreventionReport();
+            }
+            
+            document.getElementById('reportContent').innerHTML = reportContent;
+            document.getElementById('reportOutput').classList.remove('hidden');
+        }
+        
+        function generateExecutiveReport() {
+            const totalCost = epoData.reduce((sum, epo) => sum + epo.totalCost, 0);
+            const preventableCost = epoData.filter(epo => 
+                epo.rootCause === 'Measurement Error' || 
+                epo.rootCause === 'Job Site Issue' || 
+                epo.rootCause === 'Installation Error'
+            ).reduce((sum, epo) => sum + epo.totalCost, 0);
+            
+            const annualizedSavings = preventableCost * 12 / Math.max(1, getMonthsSpan());
+            
+            return `
+                <div class="report-header">
+                    <h2>Executive Summary: EPO Cost Prevention Analysis</h2>
+                    <p><strong>Reporting Period:</strong> ${getDateRange()}</p>
+                    <p><strong>Prepared by:</strong> Production Coordination Team</p>
+                </div>
+                
+                <div class="executive-insights">
+                    <div class="insight-card cost">
+                        <h3>Financial Impact</h3>
+                        <p><strong>Total EPO Costs:</strong> ${totalCost.toFixed(2)}</p>
+                        <p><strong>Preventable Costs:</strong> ${preventableCost.toFixed(2)} (${Math.round(preventableCost/totalCost*100)}%)</p>
+                        <p><strong>Annualized Prevention Opportunity:</strong> ${annualizedSavings.toFixed(2)}</p>
+                    </div>
+                    
+                    <div class="insight-card pattern">
+                        <h3>Operational Metrics</h3>
+                        <p><strong>Total EPO Incidents:</strong> ${epoData.length}</p>
+                        <p><strong>Average Cost per EPO:</strong> ${(totalCost/epoData.length).toFixed(2)}</p>
+                        <p><strong>EPO Rate:</strong> ${(epoData.length/150*100).toFixed(1)}% of monthly jobs</p>
+                    </div>
+                    
+                    <div class="insight-card prevention">
+                        <h3>Strategic Recommendations</h3>
+                        <ul>
+                            <li>Implement pre-production verification protocol</li>
+                            <li>Enhanced material buffer management</li>
+                            <li>Targeted crew training programs</li>
+                            <li>Supplier partnership optimization</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="insight-card action">
+                        <h3>Expected ROI</h3>
+                        <p><strong>Implementation Cost:</strong> $2,000-$3,000</p>
+                        <p><strong>Monthly Savings Potential:</strong> ${(annualizedSavings/12).toFixed(2)}</p>
+                        <p><strong>Payback Period:</strong> 2-3 months</p>
+                        <p><strong>Annual ROI:</strong> ${Math.round(annualizedSavings/2500*100)}%</p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function generateOperationalReport() {
+            return `
+                <div class="report-header">
+                    <h2>Operational Analysis: EPO Root Cause & Process Improvement</h2>
+                </div>
+                
+                <h3>Root Cause Breakdown</h3>
+                ${generateRootCauseAnalysis()}
+                
+                <h3>Crew Performance Analysis</h3>
+                ${generateCrewAnalysis()}
+                
+                <h3>Builder-Specific Patterns</h3>
+                ${generateBuilderAnalysis()}
+                
+                <h3>Material-Specific Issues</h3>
+                ${generateMaterialAnalysis()}
+            `;
+        }
+        
+        function generateFinancialReport() {
+            const monthlyCosts = calculateMonthlyCosts();
+            const projectedAnnual = calculateProjectedAnnual();
+            
+            return `
+                <div class="report-header">
+                    <h2>Financial Impact Analysis: EPO Cost Management</h2>
+                </div>
+                
+                <div class="executive-insights">
+                    <div class="insight-card cost">
+                        <h3>Cost Trending</h3>
+                        <p><strong>Current Monthly Average:</strong> ${monthlyCosts.toFixed(2)}</p>
+                        <p><strong>Projected Annual Impact:</strong> ${projectedAnnual.toFixed(2)}</p>
+                        <p><strong>Cost per Job (150/month):</strong> ${(monthlyCosts/150).toFixed(2)}</p>
+                    </div>
+                    
+                    <div class="insight-card prevention">
+                        <h3>Prevention Investment Analysis</h3>
+                        <p><strong>System Implementation:</strong> $2,500</p>
+                        <p><strong>Training & Process:</strong> $1,500</p>
+                        <p><strong>Technology Enhancement:</strong> $1,000</p>
+                        <p><strong>Total Investment:</strong> $5,000</p>
+                    </div>
+                </div>
+                
+                <h3>Cost-Benefit Analysis</h3>
+                <p>Implementing comprehensive EPO prevention protocols represents a high-ROI investment with rapid payback and significant ongoing savings.</p>
+            `;
+        }
+        
+        function generatePreventionReport() {
+            return `
+                <div class="report-header">
+                    <h2>EPO Prevention Strategy: Implementation Roadmap</h2>
+                </div>
+                
+                <h3>Phase 1: Immediate Actions (Week 1-2)</h3>
+                <ul>
+                    <li>Implement measurement verification checklist</li>
+                    <li>Standardize EPO request documentation</li>
+                    <li>Create material buffer protocols for high-risk items</li>
+                </ul>
+                
+                <h3>Phase 2: Process Enhancement (Week 3-4)</h3>
+                <ul>
+                    <li>Deploy crew-specific training programs</li>
+                    <li>Enhance supplier communication protocols</li>
+                    <li>Implement predictive analytics for material planning</li>
+                </ul>
+                
+                <h3>Phase 3: Technology Integration (Month 2)</h3>
+                <ul>
+                    <li>Advanced CompanyCam integration</li>
+                    <li>Automated Sage 100 verification systems</li>
+                    <li>Real-time reporting and alerts</li>
+                </ul>
+                
+                <h3>Expected Outcomes</h3>
+                <p><strong>60-80% reduction in preventable EPOs</strong></p>
+                <p><strong>$8,000-$12,000 monthly cost savings</strong></p>
+                <p><strong>Improved crew efficiency and job completion times</strong></p>
+            `;
+        }
+        
+        // Helper functions for reports
+        function getDateRange() {
+            if (epoData.length === 0) return 'No data available';
+            const dates = epoData.map(epo => new Date(epo.date));
+            const earliest = new Date(Math.min(...dates));
+            const latest = new Date(Math.max(...dates));
+            return `${earliest.toLocaleDateString()} - ${latest.toLocaleDateString()}`;
+        }
+        
+        function calculateMonthlyCosts() {
+            const totalCost = epoData.reduce((sum, epo) => sum + epo.totalCost, 0);
+            return totalCost / Math.max(1, getMonthsSpan());
+        }
+        
+        function calculateProjectedAnnual() {
+            return calculateMonthlyCosts() * 12;
+        }
+        
+        function generateRootCauseAnalysis() {
+            const causeCount = {};
+            const causeCost = {};
+            
+            epoData.forEach(epo => {
+                causeCount[epo.rootCause] = (causeCount[epo.rootCause] || 0) + 1;
+                causeCost[epo.rootCause] = (causeCost[epo.rootCause] || 0) + epo.totalCost;
+            });
+            
+            let html = '<table class="data-table"><thead><tr><th>Root Cause</th><th>Incidents</th><th>Total Cost</th><th>Avg Cost</th></tr></thead><tbody>';
+            
+            Object.keys(causeCount).forEach(cause => {
+                const count = causeCount[cause];
+                const cost = causeCost[cause];
+                const avgCost = cost / count;
+                
+                html += `
+                    <tr>
+                        <td>${cause}</td>
+                        <td>${count}</td>
+                        <td>${cost.toFixed(2)}</td>
+                        <td>${avgCost.toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+            
+            html += '</tbody></table>';
+            return html;
+        }
+        
+        function generateCrewAnalysis() {
+            const crewData = {};
+            
+            epoData.forEach(epo => {
+                if (!crewData[epo.crew]) {
+                    crewData[epo.crew] = { count: 0, cost: 0 };
+                }
+                crewData[epo.crew].count++;
+                crewData[epo.crew].cost += epo.totalCost;
+            });
+            
+            let html = '<table class="data-table"><thead><tr><th>Crew</th><th>EPO Count</th><th>Total Cost</th><th>Avg per EPO</th></tr></thead><tbody>';
+            
+            Object.keys(crewData).forEach(crew => {
+                const data = crewData[crew];
+                html += `
+                    <tr>
+                        <td>${crew}</td>
+                        <td>${data.count}</td>
+                        <td>${data.cost.toFixed(2)}</td>
+                        <td>${(data.cost/data.count).toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+            
+            html += '</tbody></table>';
+            return html;
+        }
+        
+        function generateBuilderAnalysis() {
+            const builderData = {};
+            
+            epoData.forEach(epo => {
+                if (!builderData[epo.builder]) {
+                    builderData[epo.builder] = { count: 0, cost: 0 };
+                }
+                builderData[epo.builder].count++;
+                builderData[epo.builder].cost += epo.totalCost;
+            });
+            
+            let html = '<table class="data-table"><thead><tr><th>Builder</th><th>EPO Count</th><th>Total Cost</th><th>Risk Level</th></tr></thead><tbody>';
+            
+            Object.keys(builderData).forEach(builder => {
+                const data = builderData[builder];
+                const riskLevel = data.count > 2 ? 'High' : data.count > 1 ? 'Medium' : 'Low';
+                
+                html += `
+                    <tr>
+                        <td>${builder}</td>
+                        <td>${data.count}</td>
+                        <td>${data.cost.toFixed(2)}</td>
+                        <td><span class="status-badge ${riskLevel === 'High' ? 'status-review' : riskLevel === 'Medium' ? 'status-pending' : 'status-resolved'}">${riskLevel}</span></td>
+                    </tr>
+                `;
+            });
+            
+            html += '</tbody></table>';
+            return html;
+        }
+        
+        function generateMaterialAnalysis() {
+            const materialData = {};
+            
+            epoData.forEach(epo => {
+                if (!materialData[epo.material]) {
+                    materialData[epo.material] = { count: 0, cost: 0 };
+                }
+                materialData[epo.material].count++;
+                materialData[epo.material].cost += epo.totalCost;
+            });
+            
+            let html = '<table class="data-table"><thead><tr><th>Material</th><th>Frequency</th><th>Total Cost</th><th>Prevention Priority</th></tr></thead><tbody>';
+            
+            Object.keys(materialData).forEach(material => {
+                const data = materialData[material];
+                const priority = data.count > 2 ? 'Critical' : data.count > 1 ? 'High' : 'Medium';
+                
+                html += `
+                    <tr>
+                        <td>${material}</td>
+                        <td>${data.count}</td>
+                        <td>${data.cost.toFixed(2)}</td>
+                        <td><span class="status-badge ${priority === 'Critical' ? 'status-review' : priority === 'High' ? 'status-pending' : 'status-resolved'}">${priority}</span></td>
+                    </tr>
+                `;
+            });
+            
+            html += '</tbody></table>';
+            return html;
+        }
+        
+        // Export functions
+        function exportToPDF() {
+            alert('PDF export functionality would integrate with a PDF generation library in production environment.');
+        }
+        
+        function exportToExcel() {
+            // Create CSV format for Excel compatibility
+            let csvContent = "Date,Subdivision,Builder,Address,Material,Quantity,Unit,Unit Price,Total Cost,Root Cause,Responsible Party,Requested By,Crew,Prevention Strategy,Notes\n";
+            
+            epoData.forEach(epo => {
+                csvContent += `${epo.date},"${epo.subdivision}","${epo.builder}","${epo.address}","${epo.material}",${epo.quantity},"${epo.unit}",${epo.unitPrice},${epo.totalCost},"${epo.rootCause}","${epo.responsibleParty}","${epo.requestedBy}","${epo.crew}","${epo.prevention}","${epo.notes}"\n`;
+            });
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `EPO_Data_Export_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+        
+        function copyToClipboard() {
+            const reportContent = document.getElementById('reportContent').innerText;
+            navigator.clipboard.writeText(reportContent).then(() => {
+                alert('Report content copied to clipboard!');
+            });
+        }
+        
+        // Apply filters
+        function applyFilters() {
+            // This would filter the data based on selected criteria
+            // Implementation would update the analysis table and charts
+            updateAnalysis();
+        }
+        
+        // Initialize the system
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeData();
+            
+            // Set default date to today
+            document.getElementById('date').value = new Date().toISOString().split('T')[0];
+        });
+    </script>
+</body>
+</html>
