@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPO Request Form - Field Supervisors</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 300;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .urgent-notice {
+            background: #f39c12;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .form-container {
+            padding: 30px;
+        }
+        
+        .form-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .section-title {
+            font-size: 1.3em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        
+        .required {
+            color: #e74c3c;
+            margin-left: 5px;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 12px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        .help-text {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .photo-upload {
+            border: 2px dashed #bdc3c7;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            transition: border-color 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .photo-upload:hover {
+            border-color: #3498db;
+            background: #f8f9fa;
+        }
+        
+        .photo-upload input[type="file"] {
+            display: none;
+        }
+        
+        .photo-instructions {
+            background: #e8f6f3;
+            border: 1px solid #1abc9c;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .photo-instructions h4 {
+            color: #16a085;
+            margin-bottom: 10px;
+        }
+        
+        .photo-instructions ul {
+            margin-left: 20px;
+            color: #2c3e50;
+        }
+        
+        .why-needed {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .why-needed h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+            margin-right: 10px;
+        }
+        
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+        
+        .button-group {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: #ecf0f1;
+            border-radius: 10px;
+        }
+        
+        .cost-calculator {
+            background: #e8f5e8;
+            border: 2px solid #27ae60;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .cost-result {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #27ae60;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .priority-indicator {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .priority-high {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .priority-medium {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .priority-low {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .instructions-panel {
+            background: #3498db;
+            color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .instructions-panel h3 {
+            margin-bottom: 15px;
+        }
+        
+        .instructions-panel ul {
+            margin-left: 20px;
+        }
+        
+        .instructions-panel li {
+            margin-bottom: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                margin: 10px;
+            }
+            
+            body {
+                padding: 10px;
+            }
+        }
+        
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>EPO REQUEST FORM</h1>
+            <p>Extra Purchase Order - Field Supervisor Submission</p>
+        </div>
+        
+        <div class="urgent-notice">
+            ⚠️ URGENT: Complete ALL fields to ensure fastest material delivery ⚠️
+        </div>
+        
+        <div class="form-container">
+            <div class="instructions-panel">
+                <h3>📋 BEFORE YOU SUBMIT - QUICK CHECKLIST:</h3>
+                <ul>
+                    <li><strong>Take Photos:</strong> Show the shortage/problem area clearly</li>
+                    <li><strong>Verify Measurements:</strong> Double-check quantities needed</li>
+                    <li><strong>Check Job Site:</strong> Confirm no materials are misplaced</li>
+                    <li><strong>Contact Office:</strong> Try calling production first for immediate solutions</li>
+                </ul>
+            </div>
+            
+            <form id="epoRequestForm">
+                <div class="success-message" id="successMessage">
+                    ✅ EPO Request submitted successfully! Production team will process immediately.
+                </div>
+                
+                <div class="error-message" id="errorMessage">
+                    ❌ Please fill in all required fields before submitting.
+                </div>
+                
+                <!-- BASIC JOB INFO -->
+                <div class="form-section">
+                    <h3 class="section-title">📍 Job Information</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Job Address <span class="required">*</span></label>
+                            <input type="text" id="jobAddress" required placeholder="e.g., 1234 Main Street">
+                            <div class="help-text">Full street address from job paperwork</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Subdivision <span class="required">*</span></label>
+                            <input type="text" id="subdivision" required placeholder="e.g., Montaine, Ken Caryl Ranch">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Builder <span class="required">*</span></label>
+                            <select id="builder" required>
+                                <option value="">Select Builder</option>
+                                <option value="Toll Brothers">Toll Brothers</option>
+                                <option value="Lennar">Lennar</option>
+                                <option value="Century Communities">Century Communities</option>
+                                <option value="Dr Horton">Dr Horton</option>
+                                <option value="Richmond American">Richmond American</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Your Name (Supervisor) <span class="required">*</span></label>
+                            <input type="text" id="supervisorName" required placeholder="First and Last Name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Crew/Team Name <span class="required">*</span></label>
+                            <input type="text" id="crewName" required placeholder="e.g., Mariscal Roofing, Antonio Roofing">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Date Needed <span class="required">*</span></label>
+                            <input type="date" id="dateNeeded" required>
+                            <div class="help-text">When do you need this material delivered?</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- MATERIAL DETAILS -->
+                <div class="form-section">
+                    <h3 class="section-title">🔨 Material Information</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Material Needed <span class="required">*</span></label>
+                            <input type="text" id="materialName" required placeholder="e.g., Seal A Ridge - Weatherwood">
+                            <div class="help-text">Exact material name from original job sheet</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Quantity Needed <span class="required">*</span></label>
+                            <input type="number" id="quantity" step="0.01" required placeholder="e.g., 2.5">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Unit <span class="required">*</span></label>
+                            <select id="unit" required>
+                                <option value="">Select Unit</option>
+                                <option value="BNDL">Bundle (BNDL)</option>
+                                <option value="RL">Roll (RL)</option>
+                                <option value="EA">Each (EA)</option>
+                                <option value="BOX">Box (BOX)</option>
+                                <option value="PC">Piece (PC)</option>
+                                <option value="SQ">Square (SQ)</option>
+                                <option value="LF">Linear Feet (LF)</option>
+                                <option value="TB">Tube (TB)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Priority Level <span class="required">*</span></label>
+                            <select id="priority" required onchange="updatePriorityDisplay()">
+                                <option value="">Select Priority</option>
+                                <option value="URGENT">🔴 URGENT - Job Stopped</option>
+                                <option value="HIGH">🟡 HIGH - Needed Today</option>
+                                <option value="NORMAL">🟢 NORMAL - Needed Tomorrow</option>
+                            </select>
+                            <div id="priorityHelp" class="help-text">Select based on how critical this is to job completion</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ROOT CAUSE ANALYSIS -->
+                <div class="form-section">
+                    <h3 class="section-title">🔍 Why is this EPO needed? (REQUIRED)</h3>
+                    <div class="why-needed">
+                        <h4>🎯 Help us prevent future EPOs by identifying the root cause:</h4>
+                        <p>This information helps production improve our processes and save money. Be honest - we're not looking to blame, we're looking to improve!</p>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Primary Reason <span class="required">*</span></label>
+                            <select id="rootCause" required onchange="showReasonDetails()">
+                                <option value="">Select Primary Reason</option>
+                                <option value="Shortage - Original Estimate">📐 Original Estimate was Short</option>
+                                <option value="Shortage - Supplier">📦 Supplier Didn't Deliver Full Order</option>
+                                <option value="Framer Changes">🔨 Framer Added Extra Holes/Features</option>
+                                <option value="Job Site Issue">🏗️ Job Site Problem (damage, theft, etc.)</option>
+                                <option value="Installation Error">❌ Crew Installation Error/Waste</option>
+                                <option value="Weather Damage">🌧️ Weather Damaged Material</option>
+                                <option value="Quality Issue">⚠️ Defective Material Replacement</option>
+                                <option value="Specification Change">📝 Customer/Builder Changed Requirements</option>
+                                <option value="Other">❓ Other (explain in notes)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Could this have been prevented? <span class="required">*</span></label>
+                            <select id="preventable" required>
+                                <option value="">Select Answer</option>
+                                <option value="Yes - Office Issue">Yes - Better Office Planning</option>
+                                <option value="Yes - Field Issue">Yes - Better Field Practices</option>
+                                <option value="Yes - Communication">Yes - Better Communication</option>
+                                <option value="No - External">No - Outside Our Control</option>
+                                <option value="Unsure">Not Sure</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Detailed Explanation <span class="required">*</span></label>
+                        <textarea id="explanation" rows="4" required placeholder="Provide specific details about what happened and why this material is needed. The more detail you give, the faster we can prevent this in the future."></textarea>
+                        <div class="help-text">Example: "Seal A Ridge was 2 bundles short. Original takeoff showed 8 bundles but roof actually needed 10 due to extra hip on back section that wasn't on original plans."</div>
+                    </div>
+                </div>
+                
+                <!-- PHOTO REQUIREMENTS -->
+                <div class="form-section">
+                    <h3 class="section-title">📸 Required Photos</h3>
+                    <div class="photo-instructions">
+                        <h4>📱 MUST INCLUDE THESE PHOTOS:</h4>
+                        <ul>
+                            <li><strong>Problem Area:</strong> Show exactly where material is needed</li>
+                            <li><strong>Job Overview:</strong> Wide shot of current progress</li>
+                            <li><strong>Material Check:</strong> Show any remaining materials on site</li>
+                            <li><strong>Reference Point:</strong> Include address marker or job sign if possible</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Upload Photos <span class="required">*</span></label>
+                        <div class="photo-upload" onclick="document.getElementById('photoUpload').click()">
+                            <input type="file" id="photoUpload" accept="image/*" multiple required>
+                            <div>
+                                <strong>📱 Click to Upload Photos</strong><br>
+                                <span style="color: #7f8c8d;">Select multiple photos (JPG, PNG)</span><br>
+                                <span style="color: #e74c3c; font-size: 0.9em;">REQUIRED: Minimum 2 photos</span>
+                            </div>
+                        </div>
+                        <div id="photoPreview" style="margin-top: 10px;"></div>
+                    </div>
+                </div>
+                
+                <!-- COST IMPACT -->
+                <div class="form-section">
+                    <h3 class="section-title">💰 Estimated Cost Impact</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Estimated Unit Price ($)</label>
+                            <input type="number" id="estimatedPrice" step="0.01" placeholder="0.00" onchange="calculateTotal()">
+                            <div class="help-text">If known - helps with rush orders</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Job Delay Impact</label>
+                            <select id="delayImpact">
+                                <option value="">Select Impact</option>
+                                <option value="No Delay">No Delay - Can Work Other Areas</option>
+                                <option value="Partial Delay">Partial Delay - Some Work Stopped</option>
+                                <option value="Full Stop">Full Stop - Cannot Continue</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-calculator">
+                        <strong>💵 Estimated Total Cost: </strong>
+                        <span class="cost-result" id="totalCost">$0.00</span>
+                    </div>
+                </div>
+                
+                <!-- DELIVERY PREFERENCES -->
+                <div class="form-section">
+                    <h3 class="section-title">🚚 Delivery Information</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Best Contact Number <span class="required">*</span></label>
+                            <input type="tel" id="contactNumber" required placeholder="(555) 123-4567">
+                            <div class="help-text">For delivery coordination</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Special Delivery Instructions</label>
+                            <textarea id="deliveryNotes" rows="2" placeholder="e.g., Gate code, specific location, access restrictions"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SUBMIT BUTTON -->
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear Form</button>
+                    <button type="submit" class="btn btn-primary">🚀 SUBMIT EPO REQUEST</button>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px; color: #7f8c8d;">
+                    <p><strong>Questions?</strong> Call Production Office: <strong>(555) 123-4567</strong></p>
+                    <p>Form will be processed within 2 hours during business hours</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Auto-set today's date as minimum for date needed
+        document.getElementById('dateNeeded').min = new Date().toISOString().split('T')[0];
+        document.getElementById('dateNeeded').value = new Date().toISOString().split('T')[0];
+        
+        // Calculate total cost
+        function calculateTotal() {
+            const quantity = parseFloat(document.getElementById('quantity').value) || 0;
+            const price = parseFloat(document.getElementById('estimatedPrice').value) || 0;
+            const total = quantity * price;
+            document.getElementById('totalCost').textContent = `$${total.toFixed(2)}`;
+        }
+        
+        // Update quantity calculation when quantity changes
+        document.getElementById('quantity').addEventListener('change', calculateTotal);
+        
+        // Update priority display
+        function updatePriorityDisplay() {
+            const priority = document.getElementById('priority').value;
+            const helpText = document.getElementById('priorityHelp');
+            
+            switch(priority) {
+                case 'URGENT':
+                    helpText.innerHTML = '<strong style="color: #e74c3c;">🔴 URGENT: Will be processed immediately - expect call within 30 minutes</strong>';
+                    break;
+                case 'HIGH':
+                    helpText.innerHTML = '<strong style="color: #f39c12;">🟡 HIGH: Will be processed within 2 hours during business hours</strong>';
+                    break;
+                case 'NORMAL':
+                    helpText.innerHTML = '<strong style="color: #27ae60;">🟢 NORMAL: Will be processed same day, delivery next business day</strong>';
+                    break;
+                default:
+                    helpText.textContent = 'Select based on how critical this is to job completion';
+            }
+        }
+        
+        // Show additional details based on root cause
+        function showReasonDetails() {
+            const cause = document.getElementById('rootCause').value;
+            // This would show additional fields based on the selected cause
+            // Implementation would add dynamic form fields
+        }
+        
+        // Handle photo upload preview
+        document.getElementById('photoUpload').addEventListener('change', function(e) {
+            const preview = document.getElementById('photoPreview');
+            preview.innerHTML = '';
+            
+            for (let i = 0; i < e.target.files.length; i++) {
+                const file = e.target.files[i];
+                const div = document.createElement('div');
+                div.style.display = 'inline-block';
+                div.style.margin = '5px';
+                div.style.padding = '10px';
+                div.style.background = '#f8f9fa';
+                div.style.borderRadius = '5px';
+                div.innerHTML = `📸 ${file.name}`;
+                preview.appendChild(div);
+            }
+        });
+        
+        // Form submission
+        document.getElementById('epoRequestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate required fields
+            const requiredFields = this.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.style.borderColor = '#e74c3c';
+                } else {
+                    field.style.borderColor = '#bdc3c7';
+                }
+            });
+            
+            // Check if photos uploaded
+            const photos = document.getElementById('photoUpload').files;
+            if (photos.length < 2) {
+                isValid = false;
+                document.getElementById('photoUpload').parentElement.style.borderColor = '#e74c3c';
+                alert('Please upload at least 2 photos showing the problem area and job overview.');
+                return;
+            }
+            
+            if (!isValid) {
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('successMessage').style.display = 'none';
+                // Scroll to first error
+                document.querySelector('[required]:invalid, [style*="border-color: rgb(231, 76, 60)"]').scrollIntoView();
+                return;
+            }
+            
+            // Simulate form submission
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // In real implementation, this would submit to your server
+            setTimeout(() => {
+                alert('EPO Request Submitted Successfully!\n\nProduction team has been notified and will contact you within the priority timeframe selected.\n\nRequest ID: EPO-' + Date.now());
+                // clearForm();
+            }, 1000);
+        });
+        
+        // Clear form function
+        function clearForm() {
+            if (confirm('Are you sure you want to clear all form data?')) {
+                document.getElementById('epoRequestForm').reset();
+                document.getElementById('photoPreview').innerHTML = '';
+                document.getElementById('totalCost').textContent = '$0.00';
+                document.getElementById('priorityHelp').textContent = 'Select based on how critical this is to job completion';
+            }
+        }
+    </script>
+</body>
+</html>
